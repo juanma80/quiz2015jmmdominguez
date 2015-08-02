@@ -1,16 +1,16 @@
-var path = requiere('path');
+var path = require('path');
 
-var Sequelize = requiere('sequelize');
+var Sequelize = require('sequelize');
 
 var sequelize = new Sequelize(null,null,null,
 	{dialect: "sqlite", storage: "quiz.sqlite"}
 	);
 	
-var Quiz = Sequelize.import(path.join(__dirname,'quiz'));
+var Quiz = sequelize.import(path.join(__dirname,'quiz'));
 
 exports.Quiz = Quiz;
 
-sequqlize.sync().success(function{
+sequelize.sync().success(function(){
 	Quiz.count().success(function (count){
 		if (count === 0) {
 			Quiz.create({	pregunta: 'Capital de Italia',
