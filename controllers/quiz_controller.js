@@ -56,6 +56,9 @@ exports.query = function(req, res) {
 exports.search = function(req, res) {
 	console.log('search');
 	var search = req.query.search;
+	
+	search = search.replace(/\s/g, "%");
+	console.log('search- buscamos['+search+']');
 	//models.Quiz.findAll().then(
 	models.Quiz.findAll({where: ["pregunta like ?", '%' + search + '%']}).then(
 	function(quizes){
