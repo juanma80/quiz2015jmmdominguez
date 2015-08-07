@@ -45,10 +45,17 @@ exports.answer = function(req, res) {
 	res.render('quizes/answer', {quiz: req.quiz, respuesta: resultado});
 };
 
+//GET /quizes/query
+exports.query = function(req, res) {
+	console.log('query');
+	//res.render('quizes/search', {quizes: quizes});
+	res.render('quizes/search');
+};
+
 //GET /quizes/search
 exports.search = function(req, res) {
 	console.log('search');
-	var search = "Italia";
+	var search = req.query.search;
 	//models.Quiz.findAll().then(
 	models.Quiz.findAll({where: ["pregunta like ?", '%' + search + '%']}).then(
 	function(quizes){
