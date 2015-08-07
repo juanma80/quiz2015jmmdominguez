@@ -37,13 +37,6 @@ exports.show = function(req, res) {
 
 //GET /quizes/:id/answer
 exports.answer = function(req, res) {
-	//~ models.Quiz.find(req.params.quizId).then(function(quiz){
-		//~ if(req.query.respuesta === req.quiz.respuesta) {
-			//~ res.render('quizes/answer', {quiz: req.quiz, respuesta: 'Correcto'});
-		//~ } else {
-			//~ res.render('quizes/answer', {quiz: req.quiz, respuesta: 'Incorrecto'});
-		//~ }
-	//~ })
 	var resultado = 'Incorrecto';
 	console.log('answer');
 	if(req.query.respuesta === req.quiz.respuesta) {
@@ -51,6 +44,20 @@ exports.answer = function(req, res) {
 	}
 	res.render('quizes/answer', {quiz: req.quiz, respuesta: resultado});
 };
+
+//GET /quizes/search
+exports.search = function(req, res) {
+	console.log('search');
+	var search = "Italia";
+	//models.Quiz.findAll().then(
+	models.Quiz.findAll({where: ["pregunta like ?", '%' + search + '%']}).then(
+	function(quizes){
+		res.render('quizes/index', {quizes: quizes});
+		//res.render('quizes/search', {quizes: quizes});
+	}
+	).catch(function(error) {next(error);});
+};
+
 
 
 
