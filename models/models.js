@@ -1,15 +1,15 @@
 var path = require('path');
 
-var url = precess.env.DATABASE_URL.match(/(.*)\:\/\/(.*?)\:(.*)@(.*)\:(.*)\/(.*)/);
-var DB_NAME = (url(6)||null);
-var user = (url(2)||null);
-var pwd = (url(3)||null);
-var protocol = (url(1)||null);
-var dialect = (url(1)||null);
-var port = (url(5)||null);
-var host = (url(4)||null);
+var url = process.env.DATABASE_URL.match(/(.*)\:\/\/(.*?)\:(.*)@(.*)\:(.*)\/(.*)/);
+var DB_NAME = (url[6]||null);
+var user = (url[2]||null);
+var pwd = (url[3]||null);
+var protocol = (url[1]||null);
+var dialect = (url[1]||null);
+var port = (url[5]||null);
+var host = (url[4]||null);
 
-var storage = precess.env.DATABASE_STORAGE;
+var storage = process.env.DATABASE_STORAGE;
 
 
 var Sequelize = require('sequelize');
@@ -31,10 +31,22 @@ sequelize.sync().success(function(){
 	Quiz.count().success(function (count){
 		if (count === 0) {
 			Quiz.create({	pregunta: 'Capital de Italia',
-							respuesta: 'Roma'})
-					.success(function(){
-						console.log('Base de Datos inicializada')
+							respuesta: 'Roma'}).
+			then(function(){
+							console.log('Pregunta 1');
+			Quiz.create({	pregunta: 'Capital de Portugal',
+							respuesta: 'Lisboa'}).then(
+							function() {
+							console.log('Pregunta 2');
+						}
+							);
+			});
+/*
+					.then(function(){
+						console.log('Base de Datos inicializada');
 					});
+*/
+			console.log('Base de Datos inicializada');
 		}
 	});
 });
