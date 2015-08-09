@@ -7,7 +7,7 @@ exports.autenticar = function(login, password, callback){
 	console.log('user_controler.autenticar');
 	if (users[login]) {
 		if (password === users[login].password) {
-			console.log('user_controler.autenticar'+' login OK');
+			console.log('user_controler.autenticar'+' login OK');			
 			callback(null, users[login]);
 		} else {
 			console.log('user_controler.autenticar'+' login NOK (Password)');
