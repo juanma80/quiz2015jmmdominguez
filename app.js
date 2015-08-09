@@ -7,6 +7,9 @@ var bodyParser = require('body-parser');
 
 var partials = require('express-partials');
 
+// Sesión
+var session = require('express-session');
+
 var routes = require('./routes/index');
 
 
@@ -23,9 +26,18 @@ app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser('Quiz 2015'));
+app.use(session());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(function(req, res, next) {
+	if (!req.path.match(/\/login|\/logut/)) {
+		req.session.redir = req.path;
+	}
+	
+	res.locals.session = req.session;
+	next();
+});
 app.use('/', routes);
 
 
