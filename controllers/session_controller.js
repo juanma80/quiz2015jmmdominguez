@@ -31,6 +31,6 @@ exports.create = function(req, res) {
 exports.destroy = function(req, res, errors) {
 	console.log('session_controller.destroy');
 	delete req.session.user;
-	//res.redirect(req.session.redir.toString());
-	res.redirect("/login");
+	//res.redirect("/login");
+	res.render('sessions/out', {errors: errors});
 };
