@@ -5,10 +5,11 @@ var quizController = require('../controllers/quiz_controller');
 
 var sessionController = require('../controllers/session_controller');
 
+var generalController = require('../controllers/general_controller');
+
 /* GET home page. */
-router.get('/', function(req, res) {
-  res.render('index', { title: 'Quiz' });
-});
+router.get('/', generalController.init);
+
 
 //Autoload
 router.param('quizId', quizController.load);
@@ -25,7 +26,6 @@ router.get('/quizes/:quizId(\\d+)/answer',quizController.answer);
 router.get('/quizes/query',quizController.query);
 router.get('/quizes/search',quizController.search);
 
-router.get('/author',function(req, res) {
-  res.render('author', { title: 'Autor' });
-});
+router.get('/author', generalController.author);
+
 module.exports = router;
