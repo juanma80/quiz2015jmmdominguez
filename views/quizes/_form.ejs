@@ -4,9 +4,8 @@
 <label for="resp" class="rem">Respuesta:</label><br />
 <input type="text" id="resp" name="quiz[respuesta]" value="<%= quiz.respuesta%>" />
 
-<label for="tema" class="rem">Tema:</label><br />
-<input type="text" id="tema" name="quiz[tema]" value="<%= quiz.tema%>" />
-<select name="myTema">
+
+<select name="quiz[tema]" value="<%= quiz.tema%>">
   <option value="otro" selected>Otro</option>
   <option value="humanidades">Humanidades</option>
   <option value="ocio">Ocio</option>
