@@ -92,7 +92,33 @@ exports.search = function(req, res) {
 	);
 };
 
+//GET quizes/new
+exports.new = function(req, res) {
+	console.log('quiz_controller.new');
+	var autologoutController = require('./autologout_controller');
+	autologoutController.watchDog(req,res,
+		function(){
+			var quiz = models.Quiz.build(
+				{pregunta: "Pregunta", respuesta: "respuesta"});
+			res.render('quizes/new', {quiz: quiz});
+		}
+	);
+};
 
+//POST quizes/create
+exports.create = function(req, res) {
+	console.log('quiz_controller.create');
+	var autologoutController = require('./autologout_controller');
+	autologoutController.watchDog(req,res,
+		function(){
+			var quiz = models.Quiz.build( req.body.quiz);
+			quiz.save({fields: ["pregunta", "respuesta"]}).
+			then(function(){
+				res.redirect('/quizes');
+			});
+		}
+	);
+};
 
 
 
