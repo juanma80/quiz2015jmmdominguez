@@ -5,7 +5,7 @@ exports.init = function(req, res) {
 	var autologoutController = require('./autologout_controller');
 	autologoutController.watchDog(req,res,
 		function(){
-		  res.render('index', { title: 'Quiz' });
+		  res.render('index', { title: 'Quiz', errors:[]});
 		}
 	);
 };
@@ -15,7 +15,7 @@ exports.author = function(req, res) {
 	var autologoutController = require('./autologout_controller');
 	autologoutController.watchDog(req,res,
 		function(){
-			res.render('author', { title: 'Autor' });
+			res.render('author', { title: 'Autor', errors:[]});
 		}
 	);
 };

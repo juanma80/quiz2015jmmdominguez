@@ -29,7 +29,7 @@ exports.index = function(req, res) {
 		function(){
 			models.Quiz.findAll().then(
 			function(quizes){
-				res.render('quizes/index', {quizes: quizes});
+				res.render('quizes/index', {quizes: quizes, errors:[]});
 			}
 			).catch(function(error) {next(error);});
 		}
@@ -42,7 +42,7 @@ exports.show = function(req, res) {
 	var autologoutController = require('./autologout_controller');
 	autologoutController.watchDog(req,res,
 		function(){
-			res.render('quizes/show', {quiz: req.quiz});
+			res.render('quizes/show', {quiz: req.quiz, errors:[]});
 		}
 	);
 
@@ -59,7 +59,8 @@ exports.answer = function(req, res) {
 			if(req.query.respuesta === req.quiz.respuesta) {
 				resultado = 'Correcto';
 			}
-			res.render('quizes/answer', {quiz: req.quiz, respuesta: resultado});
+			res.render('quizes/answer', {quiz: req.quiz, 
+				respuesta: resultado, errors:[]});
 		});
 };
 
@@ -69,7 +70,7 @@ exports.query = function(req, res) {
 	var autologoutController = require('./autologout_controller');
 	autologoutController.watchDog(req,res,
 		function(){
-			res.render('quizes/search');
+			res.render('quizes/search', {errors:[]});
 		}
 	);
 };
@@ -85,7 +86,7 @@ exports.search = function(req, res) {
 			console.log('search- buscamos['+search+']');
 			models.Quiz.findAll({where: ["pregunta like ?", '%' + search + '%']}).then(
 			function(quizes){
-				res.render('quizes/index', {quizes: quizes});
+				res.render('quizes/index', {quizes: quizes, errors:[]});
 			}
 			).catch(function(error) {next(error);});
 		}
@@ -100,7 +101,7 @@ exports.new = function(req, res) {
 		function(){
 			var quiz = models.Quiz.build(
 				{pregunta: "Pregunta", respuesta: "respuesta"});
-			res.render('quizes/new', {quiz: quiz});
+			res.render('quizes/new', {quiz: quiz, errors:[]});
 		}
 	);
 };
@@ -112,10 +113,22 @@ exports.create = function(req, res) {
 	autologoutController.watchDog(req,res,
 		function(){
 			var quiz = models.Quiz.build( req.body.quiz);
-			quiz.save({fields: ["pregunta", "respuesta"]}).
-			then(function(){
-				res.redirect('/quizes');
-			});
+			var validation = quiz.validate();
+
+			if (validation) {
+				var i=0; 
+				var errors=new Array();
+				for (var prop in validation) {
+					errors[i++]={message: validation[prop]};
+				}
+				res.render('quizes/new',
+				{quiz: quiz, errors: errors});
+			} else {
+				quiz.save({fields: ["pregunta", "respuesta"]}).
+					then(function(){
+						res.redirect('/quizes');
+					});
+			}		
 		}
 	);
 };
