@@ -134,4 +134,43 @@ exports.create = function(req, res) {
 };
 
 
+//GET quizes/:id/edit
+exports.edit = function(req, res) {
+	console.log('quiz_controller.new');
+	var autologoutController = require('./autologout_controller');
+	autologoutController.watchDog(req,res,
+		function(){
+			var quiz = req.quiz;
+			res.render('quizes/edit', {quiz: quiz, errors:[]});
+		}
+	);
+};
 
+//PUT quizes/:id
+exports.update = function(req, res) {
+	console.log('quiz_controller.create');
+	var autologoutController = require('./autologout_controller');
+	autologoutController.watchDog(req,res,
+		function(){
+			req.quiz.pregunta = req.body.quiz.pregunta;
+			req.quiz.respuesta = req.body.quiz.respuesta;
+			
+			var validation = req.quiz.validate();
+
+			if (validation) {
+				var i=0; 
+				var errors=new Array();
+				for (var prop in validation) {
+					errors[i++]={message: validation[prop]};
+				}
+				res.render('quizes/edit',
+				{quiz: req.quiz, errors: errors});
+			} else {
+				req.quiz.save({fields: ["pregunta", "respuesta"]}).
+					then(function(){
+						res.redirect('/quizes');
+					});
+			}		
+		}
+	);
+};
