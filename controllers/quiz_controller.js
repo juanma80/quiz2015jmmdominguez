@@ -136,7 +136,7 @@ exports.create = function(req, res) {
 
 //GET quizes/:id/edit
 exports.edit = function(req, res) {
-	console.log('quiz_controller.new');
+	console.log('quiz_controller.edit');
 	var autologoutController = require('./autologout_controller');
 	autologoutController.watchDog(req,res,
 		function(){
@@ -171,6 +171,22 @@ exports.update = function(req, res) {
 						res.redirect('/quizes');
 					});
 			}		
+		}
+	);
+};
+
+//DELETE /quizes/:id
+exports.destroy = function(req, res) {
+	console.log('quiz_controller.destroy');
+	
+	var autologoutController = require('./autologout_controller');
+	autologoutController.watchDog(req,res,
+		function(){
+			req.quiz.destroy().then(
+			function(){
+				res.redirect('/quizes');
+			}
+			).catch(function(error) {next(error);});
 		}
 	);
 };
