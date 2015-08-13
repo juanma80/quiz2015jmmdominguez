@@ -124,7 +124,7 @@ exports.create = function(req, res) {
 				res.render('quizes/new',
 				{quiz: quiz, errors: errors});
 			} else {
-				quiz.save({fields: ["pregunta", "respuesta"]}).
+				quiz.save({fields: ["pregunta", "respuesta", "tema"]}).
 					then(function(){
 						res.redirect('/quizes');
 					});
@@ -154,6 +154,7 @@ exports.update = function(req, res) {
 		function(){
 			req.quiz.pregunta = req.body.quiz.pregunta;
 			req.quiz.respuesta = req.body.quiz.respuesta;
+			req.quiz.tema = req.body.quiz.tema;
 			
 			var validation = req.quiz.validate();
 
@@ -166,7 +167,7 @@ exports.update = function(req, res) {
 				res.render('quizes/edit',
 				{quiz: req.quiz, errors: errors});
 			} else {
-				req.quiz.save({fields: ["pregunta", "respuesta"]}).
+				req.quiz.save({fields: ["pregunta", "respuesta", "tema"]}).
 					then(function(){
 						res.redirect('/quizes');
 					});
