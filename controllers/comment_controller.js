@@ -1,6 +1,46 @@
 //comment_controller
 var models = require('../models/models.js');
 
+//Autoload :id de comentarios
+exports.load = function(req, res, next, commentId) {
+	console.log('comment_controller.load');
+	var autologoutController = require('./autologout_controller');
+	autologoutController.watchDog(req,res,
+		function(){
+			models.Comment.find({
+				where: {
+					id: Number(commentId)}
+				}).then(function(comment){
+					if (comment) {
+						req.comment = comment;
+						next();
+					} else {
+						next(new Error('No existe commentdId=' + commentdId));
+					}
+				}
+			).catch(function(error) {
+				next(error);
+			});
+		}
+	);
+}
+
+exports.publish = function(req, res) {
+	console.log('comment_controller.publish');
+	var autologoutController = require('./autologout_controller');
+	autologoutController.watchDog(req,res,
+		function(){
+		  req.comment.publicado = true;
+		  req.comment.save({fields: ["publicado"]}).
+			then(function() { 
+				res.redirect('/quizes/'+req.params.quizId);
+			}).
+			catch(function(error) {next(error);});
+		  //res.render('comments/new', { quizid: req.params.quizId, errors:[]});
+		}
+	);
+};
+
 exports.new = function(req, res) {
 	console.log('comment_controller.new');
 	var autologoutController = require('./autologout_controller');

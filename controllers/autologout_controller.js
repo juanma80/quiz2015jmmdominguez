@@ -1,5 +1,5 @@
 //autologout_controller.js
-var maxSessionTime = 10000;
+var maxSessionTime = 120000;
 
 exports.timeStamp = function(req, res) {
 	console.log('autologout_controller.timeStamp');
