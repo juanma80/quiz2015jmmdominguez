@@ -7,6 +7,8 @@ var sessionController = require('../controllers/session_controller');
 
 var generalController = require('../controllers/general_controller');
 
+var commentController = require('../controllers/comment_controller');
+
 /* GET home page. */
 router.get('/', generalController.init);
 
@@ -29,6 +31,9 @@ router.post('/quizes/create',quizController.create);
 router.get('/quizes/:quizId(\\d+)/edit',quizController.edit);
 router.put('/quizes/:quizId(\\d+)',quizController.update);
 router.delete('/quizes/:quizId(\\d+)',quizController.destroy);
+
+router.get('/quizes/:quizId(\\d+)/comments/new',commentController.new);
+router.post('/quizes/:quizId(\\d+)/comments',commentController.create);
 
 router.get('/quizes/query',quizController.query);
 router.get('/quizes/search',quizController.search);
