@@ -1,0 +1,5 @@
+juanma@debian:~/Documentos/Miriada-X_Nube/certs$ openssl x509 -req -in quiz-2015-csr.pem -signkey quiz-2015-key.pem -out quiz-2015-cert.pem
+Signature ok
+subject=/C=ES/ST=Andalucia/L=Ronda/O=Tardis
+Getting Private key
+
